@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: james
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/point
+    username: root
+    password: root
+    hikari:
+      initializationFailTimeout: 60000
+
+logging:
+  level:
+    root: info
+    com.james: debug
