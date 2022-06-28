@@ -50,5 +50,65 @@ GET /point
 - 추가 고려 사항
     - redis로 조회및 동시성제어
     - mysql select, insert datasource 바꾸기
-    - 테스트 코드 넣기 ㅠㅠ
+    - 테스트 코드
     - rest doc 문서화 적용
+    - AWS SQS or Kafka를 활용한 이벤트 기반 고가용성
+
+  
+- DDL
+```sql
+  create table point.photo
+  (
+  photo_id   bigint auto_increment,
+  created_at datetime(6)  not null,
+  deleted_yn bit          not null,
+  photo_uuid varchar(255) not null,
+  updated_at datetime(6)  not null,
+  point_id   bigint       not null,
+  constraint photo_photo_id_uindex
+  unique (photo_id)
+  );
+
+alter table point.photo
+add primary key (photo_id);
+
+create table point.place
+(
+place_id   bigint auto_increment,
+created_at datetime(6)      not null,
+deleted_yn bit default b'0' not null,
+place_uuid varchar(255)     not null,
+updated_at datetime(6)      not null,
+user_id    varchar(255)     not null,
+constraint place_place_id_uindex
+unique (place_id)
+);
+
+create index place_place_uuid_index
+on point.place (place_uuid);
+
+alter table point.place
+add primary key (place_id);
+
+create table point.point
+(
+point_id   bigint auto_increment,
+save_point bigint           not null,
+action     varchar(255)     not null,
+content    varchar(255)     null,
+created_at datetime(6)      not null,
+deleted_yn bit default false not null,
+review_id  varchar(255)     not null,
+type       varchar(255)     not null,
+updated_at datetime(6)      not null,
+user_id    varchar(255)     not null,
+constraint point_point_id_uindex
+unique (point_id)
+);
+
+create index point_review_id_user_id_index
+on point.point (review_id, user_id);
+
+alter table point.point
+add primary key (point_id);
+```
