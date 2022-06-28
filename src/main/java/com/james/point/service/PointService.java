@@ -67,6 +67,7 @@ public class PointService {
                 .action(Action.valueOf(eventRequest.getAction()).toString())
                 .reviewId(eventRequest.getReviewId())
                 .content(eventRequest.getContent())
+                .userId(eventRequest.getUserId())
                 .savePoint(BigDecimal.valueOf(savePoint))
                 .photoList(photoList)
                 .build();
